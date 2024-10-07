@@ -10,33 +10,27 @@ import SwiftUI
 
 struct AppetizerListView: View {
     
-    @State private var appetizersList : [Appetizer] = []
+    @StateObject private var appetizerViewModel = AppetizerViewModel()
+    
     
     var body : some View{
-        NavigationView{
-            List(appetizersList){appetizer in
-                AppetizerListItem(appetizer: appetizer)
-            }
-            .navigationTitle("Appetizers")
-        }
-        .onAppear{
-            getAppetizers()
-        }
-        
-        
-    }
-    
-    func getAppetizers(){
-        NetworkManager.shared.getAppetizers { (result) in
-            DispatchQueue.main.async{
-                switch result{
-                case .success(let appetizers):
-                    appetizersList = appetizers
-                case .failure(let error):
-                    print(error)
+        ZStack{
+            NavigationView{
+                List(appetizerViewModel.appetizersList){appetizer in
+                    AppetizerListItem(appetizer: appetizer)
                 }
+                .navigationTitle("Appetizers")
+                
             }
-            
+            if(appetizerViewModel.isLoading){
+                ProgressView() // Default Circular Loader
+                    .progressViewStyle(CircularProgressViewStyle())
+                    .scaleEffect(2) // Increase the size of the loader
+                    .padding()
+            }
+        }
+        .alert(item: $appetizerViewModel.alertItem) { alert in
+            Alert(title: alert.title,message: alert.message,dismissButton: alert.dismissButton)
         }
     }
 }
