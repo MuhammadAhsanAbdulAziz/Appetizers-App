@@ -26,6 +26,12 @@ struct AlertItem : Identifiable{
         static let unableToComplete = AlertItem(title: Text("Server Error"), message: Text("Invalid response from the server. Please try again later"), dismissButton: .default(Text("OK")))
         
         
+        static let incompleteForm = AlertItem(title: Text("Incomplete Form"), message: Text ("Please fill the form"), dismissButton: .default(Text("OK")))
         
+        static let incorrectEmail = AlertItem(title: Text("Email Incorrect"), message: Text ("Please write a valid email address"), dismissButton: .default(Text("OK")))
+        
+        static let savedData = AlertItem(title: Text("Profile Saved"), message: Text ("Profile information saved successfully"), dismissButton: .default(Text("OK")))
+        
+        static let errorData = AlertItem(title: Text("Profile Error"), message: Text ("There was an error retrieving the data"), dismissButton: .default(Text("OK")))
     
 }

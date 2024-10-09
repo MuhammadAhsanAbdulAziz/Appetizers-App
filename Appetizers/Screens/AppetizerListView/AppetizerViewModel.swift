@@ -12,6 +12,8 @@ final class AppetizerViewModel : ObservableObject{
     @Published var appetizersList : [Appetizer] = []
     @Published var alertItem : AlertItem?
     @Published var isLoading : Bool = false
+    @Published var isModalShowing = false
+    @Published var selectedAppetizer : Appetizer?
     
     init() {
         isLoading = true
