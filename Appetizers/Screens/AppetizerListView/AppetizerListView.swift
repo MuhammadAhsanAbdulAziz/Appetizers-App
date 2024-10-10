@@ -10,20 +10,25 @@ import SwiftUI
 
 struct AppetizerListView: View {
     
-    @StateObject private var vm = AppetizerViewModel()
+    @State var vm = AppetizerViewModel()
     
     var body : some View{
         ZStack{
             NavigationView{
                 List(vm.appetizersList){appetizer in
                     AppetizerListItem(appetizer: appetizer)
+                        .listRowSeparator(.hidden)
                         .onTapGesture {
                             vm.selectedAppetizer = appetizer
                             vm.isModalShowing = true
                         }
                 }
+                .listStyle(.plain)
                 .navigationTitle("Appetizers")
                 
+            }
+            .task {
+                vm.getAppetizers()
             }
             .blur(radius: vm.isModalShowing ? 20 : 0)
             .disabled(vm.isModalShowing)

@@ -11,6 +11,8 @@ struct AppetizerItemDetail : View {
     
     var appetizer:Appetizer
     
+    @EnvironmentObject var orderList: Order
+    
     @Binding var isModalShowing : Bool
     
     var screenWidth: CGFloat {
@@ -96,7 +98,8 @@ struct AppetizerItemDetail : View {
                 Spacer()
                 
                 Button {
-                    
+                    orderList.add(appetizer)
+                    isModalShowing = false
                 } label: {
                     Text("$ \(appetizer.price,specifier: "%0.2f") - Add To Order")
                         .foregroundColor(.white)  // Use foregroundColor for text color

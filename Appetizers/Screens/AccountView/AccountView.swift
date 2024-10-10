@@ -10,7 +10,7 @@ import SwiftUI
 
 struct AccountView: View {
     
-    @StateObject private var vm = AccountViewModel()
+    @State private var vm = AccountViewModel()
     
 
     

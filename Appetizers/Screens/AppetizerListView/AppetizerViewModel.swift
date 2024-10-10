@@ -7,36 +7,25 @@
 
 import SwiftUI
 
-final class AppetizerViewModel : ObservableObject{
+@MainActor
+@Observable class AppetizerViewModel {
     
-    @Published var appetizersList : [Appetizer] = []
-    @Published var alertItem : AlertItem?
-    @Published var isLoading : Bool = false
-    @Published var isModalShowing = false
-    @Published var selectedAppetizer : Appetizer?
+     var appetizersList : [Appetizer] = []
+     var alertItem : AlertItem?
+     var isLoading : Bool = false
+     var isModalShowing = false
+     var selectedAppetizer : Appetizer?
     
-    init() {
+    func getAppetizers() {
         isLoading = true
-        NetworkManager.shared.getAppetizers { result in
-            DispatchQueue.main.async{ [self] in
+        
+        Task{
+            do{
+                appetizersList = try await NetworkManager.shared.getAppetizers()
                 isLoading = false
-                switch result{
-                case .success(let appetizers):
-                    appetizersList =  appetizers
-                    
-                case .failure(let error):
-                    switch error{
-                    case .invalidData:
-                        alertItem = AlertContext.invalidData
-                    case .invalidResponse:
-                        alertItem = AlertContext.invalidResponse
-                    case .invalidURL:
-                        alertItem = AlertContext.invalidUrl
-                    case .unableToComplete:
-                        alertItem = AlertContext.unableToComplete
-                    }
-                    
-                }
+            } catch{
+                alertItem = AlertContext.invalidResponse
+                isLoading = false
             }
         }
     }

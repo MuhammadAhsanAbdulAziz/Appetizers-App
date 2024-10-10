@@ -13,10 +13,24 @@ struct AppetizerListItem : View {
     var body : some View {
         ZStack{
             HStack(spacing:20){
-                AppetizerRemoteImage(fromURLString: appetizer.imageURL)
-                    .frame(width: 120,height: 90)
-                    .cornerRadius(8)
-                    .clipped()
+                //                AppetizerRemoteImage(fromURLString: appetizer.imageURL)
+                //                    .frame(width: 120,height: 90)
+                //                    .cornerRadius(8)
+                //                    .clipped()
+                AsyncImage(url: URL(string: appetizer.imageURL)) { Image in
+                    Image
+                        .resizable()
+                        .frame(width: 120,height: 90)
+                        .cornerRadius(8)
+                        .clipped()
+                } placeholder: {
+                    Image("placeholder-food")
+                        .resizable()
+                        .frame(width: 120,height: 90)
+                        .cornerRadius(8)
+                        .clipped()
+                }
+                
                 VStack(alignment:.leading){
                     Text(appetizer.name)
                         .font(.title2)
